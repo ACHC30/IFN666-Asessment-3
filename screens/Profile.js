@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from "react";
+import React, { FC, ReactElement, useEffect, useState } from "react";
 import { Alert, Text, StyleSheet, TouchableOpacity, View } from "react-native";
 //import Parse from "parse/react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const UserLogOut = () => {
   const navigation = useNavigation();
+  const [currentEmail, setEmail] = useState("");
 
   const doUserLogOut = async function () {
     return await AsyncStorage.clear()
@@ -22,7 +23,6 @@ export const UserLogOut = () => {
         navigation.navigate("Login");
         // Navigation dispatch calls a navigation action, and popToTop will take
         // the user back to the very first screen of the stack
-
         return true;
       })
       .catch((error) => {
@@ -31,10 +31,25 @@ export const UserLogOut = () => {
       });
   };
 
+  let retrieveEmail = async () => {
+    try {
+      const value = await AsyncStorage.getItem("@storage_email");
+      if (value !== null) {
+        setEmail(JSON.parse(value));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    retrieveEmail();
+  }, []);
+
   return (
     <View style={Styles.login_wrapper}>
       <View>
-        <Text style={Styles.button_label}>{"Logout"}</Text>
+        <Text style={Styles.button_label}>{`Email: ${currentEmail}`}</Text>
       </View>
       <TouchableOpacity onPress={() => doUserLogOut()}>
         <View style={Styles.button}>
@@ -44,6 +59,7 @@ export const UserLogOut = () => {
     </View>
   );
 };
+
 const Styles = StyleSheet.create({
   login_wrapper: {
     backgroundColor: "white",

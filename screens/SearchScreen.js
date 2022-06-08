@@ -18,10 +18,13 @@ function filterStocks(data, symbol) {
 }
 
 export default function SearchScreen({ navigation }) {
-  const { watchList, setState } = useStocksContext();
+  const { getWatchList } = useStocksContext();
   const { loading, rowData, error } = SearchApiStocks();
   const [symbol, setSymbol] = useState("");
   const stocksList = filterStocks(rowData, symbol);
+  useEffect(() => {
+    getWatchList();
+  }, []);
   return (
     <SafeAreaView onPress={Keyboard}>
       <View style={styles.container}>

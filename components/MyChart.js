@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   Dimensions,
+  Keyboard,
 } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import SearchApiHistory from "../contexts/ApiHistory";

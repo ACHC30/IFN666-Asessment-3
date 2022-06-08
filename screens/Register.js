@@ -1,17 +1,18 @@
-import React, { useState, useEffect, navigation } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
+  TouchableWithoutFeedback,
   Keyboard /* include other react native components here as needed */,
+  TextInput,
   Button,
 } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import TextField from "../components/TextField";
 
-const API_URL = "http://localhost:3000";
+const API_URL = "http://172.22.31.202:3002";
 
-async function CheckLogin(email, password, navigation) {
-  const url = `${API_URL}/users/login`;
+async function CheckRegister(email, username, password, navigation) {
+  const url = `${API_URL}/users/register`;
   let res = await fetch(url, {
     method: "POST",
     headers: {
@@ -19,21 +20,40 @@ async function CheckLogin(email, password, navigation) {
       "Content-Type": "application/json",
     },
 
-    body: JSON.stringify({ email: email, password: password }),
+    body: JSON.stringify({
+      email: email,
+      username: username,
+      password: password,
+    }),
   });
 
   let data = await res.json();
   console.log(data);
-  data.error ? alert(data.message) : navigation.navigate("Home");
-  await AsyncStorage.setItem("@storage_token", data.token);
+  if (data.error) {
+    if (data.message == "cannot connect to database") {
+      alert(data.message);
+    } else {
+      alert(data.message);
+    }
+  } else {
+    navigation.navigate("Login");
+  }
 }
 
-export default function Login({ navigation }) {
+export default function Register({ navigation }) {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <View>
+      <TextField
+        secureText={false}
+        icon={"user"}
+        placeholder={"Please Type In Your Username"}
+        input={username}
+        setValue={setUsername}
+      />
       <TextField
         secureText={false}
         icon={"mail"}
@@ -49,15 +69,15 @@ export default function Login({ navigation }) {
         setValue={setPassword}
       />
       <Button
-        title="Login"
+        title="Register"
         onPress={() => {
-          CheckLogin(email, password, navigation);
+          CheckRegister(email, username, password, navigation);
         }}
       />
       <Button
-        title="Register"
+        title="Cancel"
         onPress={() => {
-          navigation.navigate("Register");
+          navigation.navigate("Login");
         }}
       />
     </View>
