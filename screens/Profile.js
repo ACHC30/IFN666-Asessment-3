@@ -1,5 +1,12 @@
 import React, { FC, ReactElement, useEffect, useState } from "react";
-import { Alert, Text, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  Alert,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Button,
+} from "react-native";
 //import Parse from "parse/react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackActions } from "@react-navigation/native";
@@ -51,11 +58,12 @@ export const UserLogOut = () => {
       <View>
         <Text style={Styles.button_label}>{`Email: ${currentEmail}`}</Text>
       </View>
-      <TouchableOpacity onPress={() => doUserLogOut()}>
-        <View style={Styles.button}>
-          <Text style={Styles.button_label}>{"Logout"}</Text>
-        </View>
-      </TouchableOpacity>
+      <Button
+        title="Log Out"
+        onPress={() => {
+          doUserLogOut();
+        }}
+      />
     </View>
   );
 };
@@ -65,11 +73,8 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
   },
   button_label: {
-    backgroundColor: "white",
+    backgroundColor: "black",
+    color: "white",
     fontSize: 30,
-  },
-  button: {
-    backgroundColor: "white",
-    color: "red",
   },
 });

@@ -35,21 +35,40 @@ export default function StocksScreen({ route }) {
     setDataQ(rowDataQ);
   }, [rowDataQ]);
 
-  return (
-    <SafeAreaView onPress={Keyboard}>
-      <View style={styles.container}>
-        <WatchList
-          rowData={rowDataQ}
-          refRBSheet={refRBSheet}
-          setHistorySymbol={setHistoryIndex}
-        />
-        <BottomSheet refRBSheet={refRBSheet} index={historyIndex} />
-      </View>
-    </SafeAreaView>
-  );
+  if (loadingQ) {
+    return (
+      <SafeAreaView onPress={Keyboard}>
+        <Text style={styles.titleText}> loading... </Text>
+      </SafeAreaView>
+    );
+  } else if (errorQ) {
+    return (
+      <SafeAreaView onPress={Keyboard}>
+        <Text style={styles.titleText}>
+          {" "}
+          Something went wrong with the API{" "}
+        </Text>
+      </SafeAreaView>
+    );
+  } else {
+    return (
+      <SafeAreaView onPress={Keyboard}>
+        <View style={styles.container}>
+          <WatchList
+            rowData={rowDataQ}
+            refRBSheet={refRBSheet}
+            setHistorySymbol={setHistoryIndex}
+          />
+          <BottomSheet refRBSheet={refRBSheet} index={historyIndex} />
+        </View>
+      </SafeAreaView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-  // FixMe: add styles here ...
-  // use scaleSize(x) to adjust sizes for small/large screens
+  titleText: {
+    fontSize: 30,
+    color: "white",
+  },
 });
