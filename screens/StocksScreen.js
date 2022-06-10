@@ -1,13 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  SafeAreaView,
-  Text,
-  View,
-  ScrollView,
-  StyleSheet,
-  Dimensions,
-  Keyboard,
-} from "react-native";
+import { SafeAreaView, Text, View, StyleSheet, Keyboard } from "react-native";
 import { useStocksContext } from "../contexts/StocksContext";
 import WatchList from "../components/WatchList";
 import SearchApiQuote from "../contexts/ApiQuotes";

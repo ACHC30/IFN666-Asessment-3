@@ -1,12 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableWithoutFeedback,
-  Keyboard /* include other react native components here as needed */,
-  TextInput,
-  Button,
-} from "react-native";
+import React, { useState } from "react";
+import { View, Button } from "react-native";
 import TextField from "../components/TextField";
 
 const API_URL = "http://172.22.31.202:3002";

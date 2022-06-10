@@ -112,6 +112,7 @@ export const StocksProvider = ({ children }) => {
           setWatchList(JSON.parse(value));
         }
         //delete from async storage
+        watchList = watchList.filter((item) => item.symbol !== newSymbol);
         //set the async storage
         await AsyncStorage.setItem(
           "@storage_watchlist",

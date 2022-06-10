@@ -64,7 +64,6 @@ export default function Login({ navigation }) {
       <Button
         title="Login"
         onPress={() => {
-          console.log("press is happening");
           CheckLogin(email, password, navigation);
         }}
       />

@@ -4,15 +4,11 @@ import { Divider } from "react-native-elements";
 import { useStocksContext } from "../contexts/StocksContext";
 export default function MyTable(props) {
   const { quoteData } = useStocksContext();
-
-  console.log("context", quoteData);
-  console.log("index", props.index);
-
   return (
     <SafeAreaView>
       <Text style={styles.titleText}>
         {" "}
-        The Quote of {quoteData[props.index].name}{" "}
+        The Quote Data of {quoteData[props.index].name}{" "}
       </Text>
       <View style={styles.container}>
         {/* Left Side Data */}
