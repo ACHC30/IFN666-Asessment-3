@@ -1,5 +1,4 @@
 import { StyleSheet, View, Text, SafeAreaView } from "react-native";
-import { Table, Row, Rows } from "react-native-table-component-2";
 import { Divider } from "react-native-elements";
 import { useStocksContext } from "../contexts/StocksContext";
 export default function MyTable(props) {

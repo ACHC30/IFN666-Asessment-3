@@ -1,8 +1,9 @@
 import { scaleSize } from "../constants/Layout";
-import { SafeAreaView, Dimensions, Text, StyleSheet } from "react-native";
+import { SafeAreaView, View, Dimensions, Text, StyleSheet } from "react-native";
 import { LineChart } from "react-native-chart-kit";
 import SearchApiHistory from "../contexts/ApiHistory";
 import { useStocksContext } from "../contexts/StocksContext";
+import { Divider } from "react-native-elements";
 
 export default function MyChart(props) {
   const { quoteData } = useStocksContext();
@@ -23,27 +24,30 @@ export default function MyChart(props) {
       </SafeAreaView>
     );
   } else {
-    const open_temp = rowData.map((x) => x.open);
-    let open_filtered = [];
-    for (let i = 0; i < open_temp.length; i = i + 30) {
-      open_filtered.push(open_temp[i]);
+    const date = rowData.map((x) => x.date);
+    let date_filter = [];
+    for (let i = 0; i < date.length; i = i + 30) {
+      date_filter.push(date[i]);
     }
-    const date_temp = rowData.map((x) => x.date);
-    let date_filtered = [];
-    for (let i = 0; i < date_temp.length; i = i + 30) {
-      date_filtered.push(date_temp[i]);
+    const close = rowData.map((x) => x.close);
+    let close_filter = [];
+    for (let i = 0; i < close.length; i = i + 30) {
+      close_filter.push(close[i]);
     }
+    const latestOpen = rowData[rowData.length - 1].open;
+    const latestvVolume = rowData[rowData.length - 1].volume;
+    const latestHigh = rowData[rowData.length - 1].high;
+    const latestLow = rowData[rowData.length - 1].low;
+
     // Set chart data
-    const data = {
-      labels: date_filtered.reverse(),
+    const dataClose = {
+      labels: date_filter.reverse(),
       datasets: [
         {
-          data: open_filtered.reverse(),
+          data: close_filter.reverse(),
         },
       ],
-      legend: [
-        `${quoteData[props.index].symbol} history per 30 days (1 month)`,
-      ], // optional
+      legend: [`${quoteData[props.index].symbol} close prices over a month`], // optional
     };
 
     // Chart config
@@ -66,14 +70,28 @@ export default function MyChart(props) {
     return (
       <SafeAreaView>
         <LineChart
-          data={data}
+          data={dataClose}
           width={Dimensions.get("window").width} // from react-native
-          height={scaleSize(220)}
+          height={scaleSize(200)}
           yAxisLabel="$"
           yAxisInterval={1} // optional, defaults to 1
           withDots={false}
           chartConfig={chartConfig}
         />
+        <View style={styles.dataContainer}>
+          <View>
+            <Text style={styles.dataText}> Latest Open: {latestOpen} </Text>
+            <Text style={styles.dataText}>
+              {" "}
+              Latest Volume: {latestvVolume}{" "}
+            </Text>
+          </View>
+          <Divider orientation="vertical" height={"100%"} width={0.5} />
+          <View>
+            <Text style={styles.dataText}> Latest Day High: {latestHigh} </Text>
+            <Text style={styles.dataText}> Latest Day Low : {latestLow} </Text>
+          </View>
+        </View>
       </SafeAreaView>
     );
   }
@@ -83,5 +101,15 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 30,
     color: "black",
+  },
+  dataText: {
+    fontSize: 14,
+    color: "black",
+  },
+  dataContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingRight: 10,
+    marginBottom: 15,
   },
 });

@@ -1,16 +1,6 @@
-import React, { FC, ReactElement, useEffect, useState } from "react";
-import {
-  Alert,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-  Button,
-} from "react-native";
-//import Parse from "parse/react-native";
+import React, { useEffect, useState } from "react";
+import { Alert, Text, StyleSheet, View, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { StackActions } from "@react-navigation/native";
-//import Styles from "./Styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const UserLogOut = () => {

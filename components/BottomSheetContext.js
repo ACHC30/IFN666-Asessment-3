@@ -1,12 +1,4 @@
-import { useState } from "react";
-import {
-  StyleSheet,
-  View,
-  SafeAreaView,
-  ScrollView,
-  Button,
-  Text,
-} from "react-native";
+import { View, SafeAreaView } from "react-native";
 import MyChart from "./MyChart";
 import MyTable from "./MyTable";
 
