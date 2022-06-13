@@ -5,8 +5,6 @@ import WatchList from "../components/WatchList";
 import SearchApiQuote from "../contexts/ApiQuotes";
 import BottomSheet from "../components/BottomSheet";
 
-// FixMe: implement other components and functions used in StocksScreen here (don't just put all the JSX in StocksScreen below)
-
 export default function StocksScreen({ route }) {
   const { watchList, setDataQ } = useStocksContext();
   const refRBSheet = useRef();
@@ -17,13 +15,8 @@ export default function StocksScreen({ route }) {
   let symbollist_fetch = result.toString();
   const { loadingQ, errorQ, rowDataQ } = SearchApiQuote(symbollist_fetch);
   const [historyIndex, setHistoryIndex] = useState(0);
-  // const [state, setState] = useState({
-  //   /* FixMe: initial state here */
-  // });
 
-  // can put more code here
   useEffect(() => {
-    // FixMe: Retrieve watchlist from persistent storage
     setDataQ(rowDataQ);
   }, [rowDataQ]);
 

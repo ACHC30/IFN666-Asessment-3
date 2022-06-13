@@ -7,7 +7,7 @@ export const UserLogOut = () => {
   const navigation = useNavigation();
   const [currentEmail, setEmail] = useState("");
 
-  const doUserLogOut = async function () {
+  const userLogOut = async function () {
     return await AsyncStorage.clear()
       .then(async () => {
         // To verify that current user is now empty, currentAsync can be used
@@ -51,7 +51,7 @@ export const UserLogOut = () => {
       <Button
         title="Log Out"
         onPress={() => {
-          doUserLogOut();
+          userLogOut();
         }}
       />
     </View>

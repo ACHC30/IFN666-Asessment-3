@@ -1,12 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  TouchableWithoutFeedback,
-  Keyboard /* include other react native components here as needed */,
-  TextInput,
-} from "react-native";
-import { Feather, Entypo } from "@expo/vector-icons";
+import { StyleSheet, View, TextInput } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 export default function TextField(props) {
   return (

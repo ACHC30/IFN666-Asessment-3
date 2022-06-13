@@ -26,7 +26,7 @@ export const StocksProvider = ({ children }) => {
 
       let data = await res.json();
       if (data.error == false) {
-        console.log(data.watchList);
+        console.log("data inside mysql watchlist", data.watchList);
         setWatchList(data.watchList);
       } else {
         if (data.message == "cannot connect to database") {
@@ -40,7 +40,7 @@ export const StocksProvider = ({ children }) => {
         }
       }
     } catch {
-      alert("error in fecthing");
+      alert("error in fecthing watchlist");
     }
   }
 
@@ -61,22 +61,21 @@ export const StocksProvider = ({ children }) => {
       }),
     });
 
+    //set the async storage
+    setWatchList((x) => {
+      x.push({ symbol: newSymbol });
+      return [...new Set(x)];
+    });
+    console.log("watchlist to be stored in async storage (add)", watchList);
+    await AsyncStorage.setItem("@storage_watchlist", JSON.stringify(watchList));
+
     let data = await res.json();
-    console.log(data);
     if (data.error == false) {
-      //set the async storage
-      setWatchList((x) => {
-        x.push({ symbol: newSymbol });
-        return [...new Set(x)];
-      });
-      await AsyncStorage.setItem(
-        "@storage_watchlist",
-        JSON.stringify(watchList)
-      );
+      // get from watchlist
       getWatchList();
     } else {
       if (data.message == "cannot connect to database") {
-        alert("cannot connect to database symbol is stored in async storage.");
+        alert("cannot connect to database async storage is used.");
       } else {
         alert("Symbol is not added to the watchlist");
       }
@@ -100,24 +99,31 @@ export const StocksProvider = ({ children }) => {
       }),
     });
 
+    //get the async storage
+    const value = await AsyncStorage.getItem("@storage_watchlist");
+    if (value !== null) {
+      setWatchList(JSON.parse(value));
+    }
+    console.log("watchlist extracted from the async storage", watchList);
+    //delete from async storage
+    let watchListTemp = watchList.filter((item) => item.symbol !== newSymbol);
+    console.log(
+      "watchlist to be stored in async storage(delete)",
+      watchListTemp
+    );
+    //set the async storage
+    await AsyncStorage.setItem(
+      "@storage_watchlist",
+      JSON.stringify(watchListTemp)
+    );
+
     let data = await res.json();
-    console.log(data);
     if (data.error == false) {
+      //get from mysql
       getWatchList();
     } else {
       if (data.message == "cannot connect to database") {
-        //get the async storage
-        const value = await AsyncStorage.getItem("@storage_watchlist");
-        if (value !== null) {
-          setWatchList(JSON.parse(value));
-        }
-        //delete from async storage
-        watchList = watchList.filter((item) => item.symbol !== newSymbol);
-        //set the async storage
-        await AsyncStorage.setItem(
-          "@storage_watchlist",
-          JSON.stringify(watchList)
-        );
+        alert("cannot connect to database async storage is used.");
       } else {
         alert("Symbol is not deleted from the watchlist");
       }
@@ -125,7 +131,6 @@ export const StocksProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    // FixMe: Retrieve watchlist from persistent storage
     getWatchList();
   }, []);
 
